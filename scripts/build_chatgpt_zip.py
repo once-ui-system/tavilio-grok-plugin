@@ -8,11 +8,13 @@ limits the portal enforces first, so a mistake shows up here rather than as
 an upload finding:
 
     python3 scripts/build_chatgpt_zip.py
+    python3 scripts/build_chatgpt_zip.py --demo-url https://…   # saves it first
 
 Limits are from https://developers.openai.com/plugins/deploy/submission and
 https://developers.openai.com/plugins/deploy/submission-errors.
 """
 
+import argparse
 import json
 import re
 import sys
@@ -64,7 +66,14 @@ def svg_is_square(path: Path) -> bool:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--demo-url", help="the review walkthrough video, saved into plugin.json")
+    args = parser.parse_args()
+
     manifest = json.loads((ROOT / "plugin.json").read_text("utf8"))
+    if args.demo_url:
+        manifest["extensions"]["com.openai"]["review"]["demo_recording_url"] = args.demo_url
+        (ROOT / "plugin.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", "utf8")
     mcp = json.loads((ROOT / "mcp.json").read_text("utf8"))
     files = {"plugin.json", "mcp.json"}
 
@@ -123,6 +132,8 @@ def main() -> int:
     positive, negative = cases.get("positive", []), cases.get("negative", [])
     check(len(positive) == 5, f"exactly 5 positive test cases, found {len(positive)}")
     check(len(negative) == 3, f"exactly 3 negative test cases, found {len(negative)}")
+    demo = review.get("demo_recording_url", "")
+    check(demo.startswith("https://"), "review.demo_recording_url is required for review: pass --demo-url https://…")
     for case in positive:
         for field in ("description", "prompt", "tools_triggered", "expected_behavior"):
             check(bool(case.get(field)), f"positive case {case.get('description')!r} needs {field}")
