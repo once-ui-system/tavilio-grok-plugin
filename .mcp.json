@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tavilio": {
+      "type": "http",
+      "url": "https://www.tavilio.app/api/mcp"
+    }
+  }
+}

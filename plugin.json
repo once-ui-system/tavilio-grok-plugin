@@ -1,0 +1,113 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tavilio",
+  "version": "1.0.0",
+  "description": "Run a venue on Tavilio from your assistant: bookings, events, the menu and products, opening hours and the website.",
+  "author": {
+    "name": "Dopler",
+    "email": "support@dopler.app",
+    "url": "https://www.tavilio.app"
+  },
+  "homepage": "https://www.tavilio.app",
+  "repository": "https://github.com/once-ui-system/tavilio-plugin",
+  "license": "MIT",
+  "keywords": ["tavilio", "tavilio bookings", "tavilio venue"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Tavilio",
+        "shortDescription": "Bookings, events and menu",
+        "longDescription": "Tavilio is the booking system and website of a restaurant, café, bar, studio or event venue. Connect it to manage your venue in conversation:\n\n- See today's and upcoming bookings, approve or decline requests, take a booking by phone, and mark no-shows.\n- Plan events and courses, publish them on your website, and see who signed up.\n- Keep the menu and products up to date, with prices, photos and allergens.\n- Change opening hours, close the venue for a holiday, and adjust booking rules.\n- Edit your website's pages and design.\n- Check how the venue is doing: bookings, covers and cancellations.\n\nFor venue owners and admins who already use Tavilio. You sign in with your Tavilio account and approve one venue; the assistant acts on that venue only, as an admin. It cannot change your plan or billing, manage your team's accounts, or delete the venue. Approving, declining or cancelling a booking emails the guest, so the assistant asks before doing it.",
+        "developerName": "Dopler",
+        "category": "Business & Operations",
+        "capabilities": [
+          "Manage bookings",
+          "Plan and publish events",
+          "Edit the menu and products",
+          "Set opening hours and closed days",
+          "Edit the venue's website",
+          "Venue statistics"
+        ],
+        "websiteURL": "https://www.tavilio.app/",
+        "supportURL": "https://www.tavilio.app/support",
+        "privacyPolicyURL": "https://www.tavilio.app/privacy-policy",
+        "termsOfServiceURL": "https://www.tavilio.app/terms-of-use",
+        "defaultPrompt": [
+          "Show me this weekend's bookings and which ones still need an answer.",
+          "Add a wine tasting next Friday at 7 pm for 12 people and put it on the website.",
+          "Close the venue on December 24 and 25."
+        ],
+        "composerIcon": "./assets/logo.svg",
+        "composerIconDark": "./assets/logo-dark.svg",
+        "logo": "./assets/logo.svg",
+        "logoDark": "./assets/logo-dark.svg"
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List upcoming bookings and the ones waiting for an answer",
+              "prompt": "What bookings do we have in the next 7 days, and which are still pending?",
+              "tools_triggered": "venue_overview, list_bookings",
+              "expected_behavior": "Lists the demo venue's bookings for the next seven days with date, time, party size and status, and points out the pending ones. Nothing is changed."
+            },
+            {
+              "description": "Add a dish to the menu",
+              "prompt": "Add an espresso tonic for 1 490 Ft to the Coffee category on our menu.",
+              "tools_triggered": "get_menu, save_menu_item",
+              "expected_behavior": "Finds the Coffee category, adds the dish with that price to it, and confirms. The dish appears under Settings › Menu in the Tavilio admin and on the venue's menu page."
+            },
+            {
+              "description": "Create and publish an event",
+              "prompt": "Create a wine tasting next Friday from 19:00 to 21:00 for 12 people, 9 900 Ft each, and publish it.",
+              "tools_triggered": "venue_overview, save_event",
+              "expected_behavior": "Creates a published event on next Friday's date in the venue's time zone, with 12 places and the price, and returns its link on the venue's website."
+            },
+            {
+              "description": "Close the venue on a date",
+              "prompt": "We're closed on December 24. Put that in.",
+              "tools_triggered": "add_closed_day",
+              "expected_behavior": "Adds a closed day for December 24 of the coming year and confirms. The date no longer offers booking times."
+            },
+            {
+              "description": "Summarize how the venue is doing",
+              "prompt": "How did last month go? Bookings, covers and cancellations.",
+              "tools_triggered": "venue_stats",
+              "expected_behavior": "Reports the counts for the last 30 days: bookings by status, covers seated, event signups and cancellations by guests. Nothing is changed."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Payments are out of scope",
+              "prompt": "Refund the deposit to the guest who cancelled yesterday."
+            },
+            {
+              "description": "The plan and billing are out of scope",
+              "prompt": "Upgrade my Tavilio plan to Pro."
+            },
+            {
+              "description": "Only the approved venue is reachable",
+              "prompt": "Show me the bookings of another restaurant on Tavilio."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "Tavilio does not sell anything through the assistant and does not process payments."
+      },
+      "publication": {
+        "release_notes": "First release: bookings, events, menu and products, opening hours, the website and venue statistics for a Tavilio venue.",
+        "translations": {
+          "hu-HU": {
+            "subtitle": "Foglalások, események, étlap",
+            "description": "A Tavilio egy étterem, kávézó, bár, stúdió vagy rendezvényhely foglalási rendszere és weboldala. Kösd be, és beszélgetésben kezeld a helyedet: a foglalásokat, az eseményeket, az étlapot és a termékeket, a nyitvatartást és a weboldalt. Bejelentkezel a Tavilio-fiókoddal, és egy helyet engedélyezel; az asszisztens csak azon a helyen, adminként dolgozik. A csomagodat, a számlázást és a csapat fiókjait nem érheti el, és a helyet nem törölheti."
+          },
+          "de-DE": {
+            "subtitle": "Buchungen, Events, Karte",
+            "description": "Tavilio ist das Buchungssystem und die Website eines Restaurants, Cafés, einer Bar, eines Studios oder eines Veranstaltungsorts. Verbinde es und verwalte deinen Betrieb im Gespräch: Buchungen, Veranstaltungen, Speisekarte und Produkte, Öffnungszeiten und die Website. Du meldest dich mit deinem Tavilio-Konto an und gibst einen Betrieb frei; der Assistent arbeitet nur dort, als Admin. Tarif, Abrechnung und die Konten deines Teams erreicht er nicht, und den Betrieb kann er nicht löschen."
+          }
+        }
+      }
+    }
+  }
+}

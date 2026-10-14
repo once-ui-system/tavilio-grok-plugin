@@ -1,0 +1,15 @@
+{
+  "name": "tavilio",
+  "version": "1.0.0",
+  "description": "Tavilio for Grok Build, through the hosted Tavilio MCP server at www.tavilio.app. Manage a restaurant's, café's, studio's or event venue's bookings, events, menu and products, opening hours and website. Sign in with your Tavilio account and approve one venue on first connect; no API key needed.",
+  "author": {
+    "name": "Dopler",
+    "email": "support@dopler.app",
+    "url": "https://www.tavilio.app"
+  },
+  "homepage": "https://www.tavilio.app",
+  "repository": "https://github.com/once-ui-system/tavilio-plugin",
+  "license": "MIT",
+  "keywords": ["tavilio", "tavilio bookings", "tavilio venue", "tavilio mcp"],
+  "logo": "assets/logo.svg"
+}
