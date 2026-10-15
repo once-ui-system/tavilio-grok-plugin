@@ -9,7 +9,7 @@
     "url": "https://www.tavilio.app"
   },
   "homepage": "https://www.tavilio.app",
-  "repository": "https://github.com/once-ui-system/tavilio-plugin",
+  "repository": "https://github.com/once-ui-system/tavilio-grok-plugin",
   "license": "MIT",
   "keywords": ["tavilio", "tavilio bookings", "tavilio venue"],
   "extensions": {
